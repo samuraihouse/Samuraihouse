@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>SAMURAI HOUSE — Nakatsugawa, Japan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; color-scheme: light only; }
+
+  body {
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* ダークモード完全無効化 */
+  @media (prefers-color-scheme: dark) {
+    html, body, section, div, nav, footer, ul, li, p, h1, h2, h3, span, a {
+      background-color: revert !important;
+      color: revert !important;
+    }
+    html { background: #ffffff !important; }
+    body { background: #ffffff !important; color: #1a1a1a !important; }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.4rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #ebebeb;
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    color: #1a1a1a;
+  }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: #1a1a1a; }
+  @media (max-width: 680px) { .nav-links { display: none; } }
+
+  /* HERO — full bleed photo */
+  .hero {
+    margin-top: 57px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100vh - 57px);
+    min-height: 520px;
+  }
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3.5rem;
+    background: #fff;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 1.4rem;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    line-height: 1.1;
+    color: #1a1a1a;
+    margin-bottom: 0.3rem;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: #888;
+  }
+  .hero-sub {
+    font-size: 0.85rem;
+    color: #999;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    margin-top: 0.6rem;
+  }
+  .hero-desc {
+    font-size: 1.1rem;
+    line-height: 2;
+    color: #333;
+    max-width: 340px;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+  }
+  .rating-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f5f5f5;
+    padding: 0.5rem 1rem;
+    font-size: 0.82rem;
+    color: #333;
+    margin-bottom: 2rem;
+    width: fit-content;
+  }
+  .btn-primary {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    background: #1a1a1a;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    width: fit-content;
+    transition: background 0.25s;
+  }
+  .btn-primary:hover { background: #444; }
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; height: auto; }
+    .hero-img { height: 55vw; min-height: 280px; }
+    .hero-text { padding: 2.5rem 1.5rem; }
+  }
+
+  /* PHOTO STRIP */
+  .photo-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+  .photo-strip img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+  }
+  @media (max-width: 540px) {
+    .photo-strip { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* SECTION */
+  .section {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem;
+    background: #ffffff;
+  }
+  .section-sm {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+    background: #ffffff;
+  }
+  .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #bbb;
+    margin-bottom: 1rem;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    color: #1a1a1a;
+    line-height: 1.15;
+    margin-bottom: 1.8rem;
+  }
+  h2 em { font-style: italic; color: #aaa; }
+  .body-text {
+    font-size: 1.12rem;
+    line-height: 2.1;
+    color: #333;
+    max-width: 560px;
+    font-weight: 400;
+  }
+
+  /* SPLIT PHOTO + TEXT */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
+    min-height: 480px;
+  }
+  .split.reverse { direction: rtl; }
+  .split.reverse > * { direction: ltr; }
+  .split-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .split-text {
+    padding: 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #ffffff;
+    color: #1a1a1a;
+  }
+  @media (max-width: 700px) {
+    .split { grid-template-columns: 1fr; min-height: auto; }
+    .split-text { padding: 2.5rem 1.5rem; }
+    .split-img { height: 60vw; }
+  }
+
+  /* AMENITIES */
+  .amenity-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 2rem;
+    border-top: 1px solid #ddd;
+    background: #ffffff;
+  }
+  .amenity-list li {
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
+    font-size: 1rem;
+    color: #1a1a1a;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 400;
+  }
+  .amenity-list li:nth-child(odd) { padding-right: 2rem; }
+  @media (max-width: 540px) {
+    .amenity-list { grid-template-columns: 1fr; }
+  }
+
+  /* RULES GRID */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .rule-item { border-top: 2px solid #1a1a1a; padding-top: 1rem; }
+  .rule-item .rule-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 0.4rem;
+  }
+  .rule-item .rule-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: #1a1a1a;
+  }
+  @media (max-width: 540px) {
+    .rules-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid #ebebeb; }
+
+  /* EXPERIENCES */
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    background: #ebebeb;
+    margin-top: 2rem;
+    border: 1px solid #ebebeb;
+  }
+  .exp-card {
+    background: #fff;
+    padding: 1.8rem 1.5rem;
+    transition: background 0.2s;
+  }
+  .exp-card:hover { background: #f9f9f9; }
+  /* 写真追加エリア */
+  .exp-photo {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .exp-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+  }
+  .exp-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: #1a1a1a;
+    margin-bottom: 0.4rem;
+  }
+  .exp-note {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+  .exp-tag {
+    display: inline-block;
+    margin-top: 0.7rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #888;
+    border: 1px solid #ddd;
+    padding: 0.2rem 0.6rem;
+  }
+
+  /* BIG PHOTO */
+  .full-photo {
+    width: 100%;
+    height: 60vh;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ACCESS */
+  .access-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 2rem;
+    align-items: start;
+  }
+  @media (max-width: 640px) { .access-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .access-list { list-style: none; }
+  .access-list li {
+    padding: 1rem 0;
+    border-bottom: 1px solid #ebebeb;
+    font-size: 1rem;
+    color: #333;
+    display: flex;
+    gap: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .address-block { font-size: 1rem; line-height: 2; color: #555; }
+  .address-block strong { display: block; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: #bbb; margin-bottom: 0.5rem; font-weight: 400; }
+
+  /* BOOK */
+  .book-section {
+    background: #1a1a1a;
+    padding: 7rem 1.5rem;
+    text-align: center;
+  }
+  .book-section .label { color: #666; }
+  .book-section h2 { color: #fff; margin-bottom: 1rem; }
+  .book-section .body-text { color: #888; margin: 0 auto 2.5rem; }
+  .btn-airbnb {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: #fff;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: background 0.25s;
+  }
+  .btn-airbnb:hover { background: #eee; }
+  .checkin-row {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+  }
+  .ci { text-align: center; }
+  .ci-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #555;
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+  .ci-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: #fff;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #fff;
+    border-top: 1px solid #ebebeb;
+    padding: 1.8rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: #bbb;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  footer a { color: #999; text-decoration: none; }
+  footer a:hover { color: #1a1a1a; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Samurai House</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experiences">Experiences</a></li>
+    <li><a href="#access">Access</a></li>
+    <li><a href="#book">Book</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img" src="https://a0.muscache.com/im/pictures/hosting/Hosting-1341763881864703488/original/6a9f7d3b-792c-40be-81fd-0d445f619732.jpeg" alt="Samurai House exterior">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Nakatsugawa · Gifu · Japan</div>
+    <h1 class="hero-title">Samurai<br><em>House</em></h1>
+    <div class="hero-sub">サムライハウス</div>
+    <p class="hero-desc">A 60-year-old kominka farmhouse — your perfect base for hiking the Nakasendo between Magome and Tsumago. Entire home. Up to 6 guests.</p>
+    <div class="rating-pill">★ 4.72 &nbsp;·&nbsp; 71 reviews on Airbnb</div>
+    <a href="#book" class="btn-primary">Reserve on Airbnb</a>
+  </div>
+</div>
+
+<!-- PHOTO STRIP -->
+<div class="photo-strip">
+  <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTM0MTc2Mzg4MTg2NDcwMzQ4OA==/original/8bba1a22-5b6c-47ca-b7f6-4dd767bd0041.jpeg" alt="Interior">
+  <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTM0MTc2Mzg4MTg2NDcwMzQ4OA==/original/8fe47e29-08b5-4b48-9dc1-6e3666756f70.jpeg" alt="Tatami room">
+  <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTM0MTc2Mzg4MTg2NDcwMzQ4OA%3D%3D/original/b4c1dc2e-05fe-442a-869e-3ccd3665cf90.jpeg" alt="Bathroom">
+</div>
+
+<!-- ABOUT -->
+<div class="split" id="about">
+  <img class="split-img" src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTM0MTc2Mzg4MTg2NDcwMzQ4OA==/original/811ff6e2-d503-44f3-b11c-f5d504a0d056.jpeg" alt="Wooden deck">
+  <div class="split-text">
+    <div class="label">About</div>
+    <h2>A traditional home<br><em>on the Samurai Road</em></h2>
+    <p class="body-text">Your ideal base for hiking the historic Nakasendo between Magome-juku and Tsumago-juku — two of Japan's best-preserved post towns, easily accessible on foot.</p>
+    <br>
+    <p class="body-text">Tatami rooms, futon bedding, a private wooden deck. The entire house is yours. Not a hotel — an authentic Japanese home to return to after a day on the trail.</p>
+  </div>
+</div>
+
+<!-- AMENITIES -->
+<div class="section" id="amenities">
+  <div class="label">The Space</div>
+  <h2>Entire home · 70㎡</h2>
+  <ul class="amenity-list">
+    <li>🛖 &nbsp;Entire private house</li>
+    <li>🛏 &nbsp;2 bedrooms · 6 futons</li>
+    <li>🛁 &nbsp;Full private bathroom</li>
+    <li>🍳 &nbsp;Full kitchen</li>
+    <li>🌿 &nbsp;Private wooden deck</li>
+    <li>📶 &nbsp;Wi-Fi</li>
+    <li>🚗 &nbsp;Free parking (1 car)</li>
+    <li>❄️ &nbsp;Air conditioning</li>
+    <li>👕 &nbsp;Washing machine</li>
+    <li>☕ &nbsp;Coffee maker</li>
+    <li>🎲 &nbsp;Board games</li>
+    <li>💨 &nbsp;Hair dryer</li>
+  </ul>
+
+  <div class="rules-grid" style="margin-top:3.5rem">
+    <div class="rule-item">
+      <div class="rule-label">Check-in</div>
+      <div class="rule-value">16:00 – 22:00</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-label">Check-out</div>
+      <div class="rule-value">Before 11:00</div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-label">Max guests</div>
+      <div class="rule-value">6 people</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- BIG PHOTO -->
+<img class="full-photo" src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTM0MTc2Mzg4MTg2NDcwMzQ4OA==/original/8bba1a22-5b6c-47ca-b7f6-4dd767bd0041.jpeg" alt="Samurai House interior">
+
+<!-- EXPERIENCES -->
+<div class="section" id="experiences">
+  <div class="label">Optional Add-ons</div>
+  <h2>Local<br><em>Experiences</em></h2>
+  <p class="body-text">Your host can arrange authentic local experiences — many available in the evening. All subject to availability. Please enquire when booking.</p>
+
+  <div class="exp-grid">
+
+    <!-- 写真の追加方法：
+         exp-placeholderを削除して
+         <img class="exp-photo" src="your-photo.jpg" alt="説明"> を追加するだけ -->
+
+    <div class="exp-card">
+      <div class="exp-placeholder">🏯</div>
+      <div class="exp-name">Historic Town Walk</div>
+      <div class="exp-note">Old post town with a local guide. Hidden history along the Nakasendo.</div>
+      <span class="exp-tag">Evening OK</span>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-placeholder">⛩️</div>
+      <div class="exp-name">Shrine Visit</div>
+      <div class="exp-note">Learn Shinto rituals at a local shrine — the meaning behind every gesture.</div>
+      <span class="exp-tag">Evening OK</span>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-placeholder">🍣</div>
+      <div class="exp-name">Sushi Making</div>
+      <div class="exp-note">Roll your own sushi with a local host. Hands-on and delicious.</div>
+      <span class="exp-tag">Evening OK</span>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-placeholder">🍶</div>
+      <div class="exp-name">Izakaya Evening</div>
+      <div class="exp-note">Join locals at a neighbourhood izakaya. Eat, drink, connect.</div>
+      <span class="exp-tag">Evening OK</span>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-placeholder">🖌️</div>
+      <div class="exp-name">Calligraphy</div>
+      <div class="exp-note">Brush your name in kanji. A beautiful souvenir to take home.</div>
+      <span class="exp-tag">Evening OK</span>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-placeholder">🥷</div>
+      <div class="exp-name">Ninja & Martial Arts</div>
+      <div class="exp-note">Basic ninja and budo techniques in a hands-on session.</div>
+      <span class="exp-tag">Evening OK</span>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-placeholder">🧘</div>
+      <div class="exp-name">Zen Meditation</div>
+      <div class="exp-note">Guided zazen at a local temple. Stillness, breath, presence.</div>
+      <span class="exp-tag">Evening OK</span>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-placeholder">🤝</div>
+      <div class="exp-name">Meet Local Japanese</div>
+      <div class="exp-note">An evening with local residents. Real conversation, real Japan.</div>
+      <span class="exp-tag">Evening OK</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- SPLIT — about host -->
+<div class="split reverse">
+  <img class="split-img" src="https://a0.muscache.com/im/pictures/hosting/Hosting-1341763881864703488/original/6a9f7d3b-792c-40be-81fd-0d445f619732.jpeg" alt="Nakasendo trail">
+  <div class="split-text">
+    <div class="label">Your Host</div>
+    <h2>A volunteer guide<br><em>with deep local roots</em></h2>
+    <p class="body-text">All experiences are arranged personally — not packaged tours, but genuine local encounters. Your host has lived and worked in this region for decades.</p>
+    <br>
+    <p class="body-text">Response rate: 100% &nbsp;·&nbsp; Reply within 1 hour</p>
+  </div>
+</div>
+
+<!-- ACCESS -->
+<div class="section" id="access">
+  <div class="label">Getting Here</div>
+  <h2>Access</h2>
+  <div class="access-grid">
+    <ul class="access-list">
+      <li>🚕 &nbsp;5 min by taxi from Nakatsugawa Station</li>
+      <li>🚶 &nbsp;15 min walk from Nakatsugawa Station</li>
+      <li>🚗 &nbsp;Free parking for 1 car on site</li>
+      <li>🛒 &nbsp;Supermarket & restaurants within walking distance</li>
+      <li>🥾 &nbsp;Nakasendo trail (Magome–Tsumago) accessible</li>
+      <li>🏯 &nbsp;Magome-juku & Tsumago-juku nearby</li>
+    </ul>
+    <div class="address-block">
+      <strong>Address</strong>
+      〒508-0005<br>
+      岐阜県中津川市<br>
+      日の出町４−３１<br><br>
+      4-31 Hinode-cho,<br>
+      Nakatsugawa City,<br>
+      Gifu Prefecture, Japan<br><br>
+      <a href="https://maps.google.com/?q=35.49497150422229,137.51561417865187" target="_blank" class="btn-primary" style="margin-top:0.5rem;font-size:0.75rem;padding:0.7rem 1.4rem">Open in Google Maps</a>
+    </div>
+  </div>
+</div>
+
+<!-- BOOK -->
+<div class="book-section" id="book">
+  <div class="label">Reservations</div>
+  <h2>Stay With Us</h2>
+  <p class="body-text">Book securely through Airbnb — instant confirmation.<br>Enquire about local experiences when you reserve.</p>
+  <a class="btn-airbnb" href="https://www.airbnb.jp/rooms/1341763881864703488" target="_blank">Book on Airbnb</a>
+  <div class="checkin-row">
+    <div class="ci"><span class="ci-label">Check-in</span><span class="ci-value">16:00 – 22:00</span></div>
+    <div class="ci"><span class="ci-label">Check-out</span><span class="ci-value">Before 11:00</span></div>
+    <div class="ci"><span class="ci-label">Max guests</span><span class="ci-value">6 people</span></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Samurai House · サムライハウス · 〒508-0005 岐阜県中津川市日の出町４−３１</span>
+  <a href="https://www.airbnb.jp/rooms/1341763881864703488" target="_blank">Airbnb Listing</a>
+</footer>
+
+</body>
+</html>
