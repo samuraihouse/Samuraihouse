@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Along the Nakasendo — Folk Beliefs & Village Life | SAMURAI HOUSE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+JP:wght@300;400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #1c1b18;
+    --paper:  #f5f2eb;
+    --warm:   #e8e0d0;
+    --stone:  #8a8070;
+    --cedar:  #7a4f2e;
+    --moss:   #4a5c3a;
+    --gold:   #c8a84b;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 48px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cedar), var(--gold), var(--moss));
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin-bottom: 24px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .header-body {
+    max-width: 560px;
+    font-size: 14px;
+    color: #aaa;
+    letter-spacing: 0.04em;
+    line-height: 1.9;
+  }
+
+  /* ── CARDS ── */
+  .cards {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 2px;
+    border: 1px solid #ddd;
+    background: white;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+  }
+
+  /* alternating layout */
+  .card:nth-child(even) { direction: rtl; }
+  .card:nth-child(even) > * { direction: ltr; }
+
+  /* photo placeholder */
+  .card-photo {
+    background: var(--warm);
+    min-height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0; left: 0;
+  }
+
+  .photo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--stone);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .photo-placeholder svg {
+    opacity: 0.3;
+  }
+
+  /* card text */
+  .card-text {
+    padding: 48px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .card-tag {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--cedar);
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    line-height: 1.15;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .card-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--stone);
+    margin-bottom: 20px;
+  }
+
+  .card-body {
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: #444;
+    max-width: 420px;
+  }
+
+  .card-body p + p { margin-top: 12px; }
+
+  /* ── DIVIDER ── */
+  .section-label {
+    text-align: center;
+    padding: 48px 0 24px;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: var(--stone);
+    padding: 36px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--paper);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 680px) {
+    header { padding: 48px 20px 40px; }
+    .cards { padding: 40px 12px; }
+    .card { grid-template-columns: 1fr; direction: ltr !important; }
+    .card-photo { min-height: 220px; }
+    .card-text { padding: 28px 24px; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">SAMURAI HOUSE · Nakasendo · Folk Culture</p>
+  <h1>The road<br>remembers<br><em>everything.</em></h1>
+  <p class="header-body">For centuries, the Nakasendo was more than a trade route. Villages grew up around it, shaped by belief, taxation, ritual, and the slow rhythm of pilgrimage. These are the ideas still carved into the landscape.</p>
+</header>
+
+<div class="cards">
+
+  <!-- 1. Koshin Faith -->
+  <div class="card">
+    <div class="card-photo">
+      <div class="photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+    <div class="card-text">
+      <p class="card-tag">Roadside Belief</p>
+      <h2 class="card-title">Kōshin Faith</h2>
+      <p class="card-subtitle">庚申信仰 · The night the worms report</p>
+      <div class="card-body">
+        <p>On the night of Kōshin — a day in the sexagenary cycle occurring roughly every sixty days — the three worms living inside your body were said to crawl out while you slept and report your sins to heaven.</p>
+        <p>To prevent this, villagers stayed awake all night together, talking, eating, praying. The stone markers you still find along the Nakasendo — carved with the blue-faced deity Shōmen Kongō and three monkeys — are monuments to those long vigils.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Kitsune Kōyaku -->
+  <div class="card">
+    <div class="card-photo">
+      <div class="photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+    <div class="card-text">
+      <p class="card-tag">Folk Medicine</p>
+      <h2 class="card-title">Fox Ointment</h2>
+      <p class="card-subtitle">狐膏薬 · The cure sold at crossroads</p>
+      <div class="card-body">
+        <p>Traveling medicine sellers were a fixture of Edo-period roads. Among the most mysterious were those who claimed to sell kitsune kōyaku — ointment made with ingredients known only to foxes, those shape-shifting messengers of Inari.</p>
+        <p>The fox as healer and trickster blurred together. Travelers bought the ointment half in faith, half in fear of what might happen if they didn't.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Masugata -->
+  <div class="card">
+    <div class="card-photo">
+      <div class="photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+    <div class="card-text">
+      <p class="card-tag">Road Architecture</p>
+      <h2 class="card-title">The Masugata</h2>
+      <p class="card-subtitle">枡形 · A deliberate right angle</p>
+      <div class="card-body">
+        <p>Where the Nakasendo passes through a post town, the road sometimes bends sharply — left, then right — for no obvious reason. These are masugata: square detours built by the Tokugawa shogunate as military chokepoints.</p>
+        <p>An army on the march could not build speed through a masugata. A single defender could hold the corner. What looks like poor planning is actually a precise political statement about who controlled movement.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Shrine-centered village -->
+  <div class="card">
+    <div class="card-photo">
+      <div class="photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+    <div class="card-text">
+      <p class="card-tag">Village Society</p>
+      <h2 class="card-title">The Shrine at the Center</h2>
+      <p class="card-subtitle">鎮守の森 · The forest that holds the village together</p>
+      <div class="card-body">
+        <p>In these mountain communities, the local shrine was not merely a place of worship. It was the administrative, social, and spiritual core of village life. Festivals determined the calendar. Shrine duties determined your standing in the community.</p>
+        <p>The grove of old trees surrounding a shrine — the chinju no mori — was legally protected, practically firebreak, and psychologically the still point around which village identity revolved.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Width of the road -->
+  <div class="card">
+    <div class="card-photo">
+      <div class="photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+    <div class="card-text">
+      <p class="card-tag">Road Design</p>
+      <h2 class="card-title">The Width of the Road</h2>
+      <p class="card-subtitle">道幅 · Measured in purpose, not meters</p>
+      <div class="card-body">
+        <p>The Nakasendo was officially defined as wide enough for two palanquins to pass each other — roughly three to four meters. But the actual width shifted constantly depending on who owned the land on either side.</p>
+        <p>Merchants built their eaves out over the road. Inns extended their entrances. The state-mandated path and the lived path were always negotiating with each other, centimeter by centimeter, over centuries.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Frontage tax -->
+  <div class="card">
+    <div class="card-photo">
+      <div class="photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+    <div class="card-text">
+      <p class="card-tag">Taxation</p>
+      <h2 class="card-title">The Frontage Tax</h2>
+      <p class="card-subtitle">間口税 · Why the old houses are so narrow</p>
+      <div class="card-body">
+        <p>Tax in Edo-period post towns was levied on the width of your building's frontage — the face that touched the road. The narrower your entrance, the less you paid.</p>
+        <p>This is why the machiya townhouses along the old road are famously thin and deep: long corridors running back from a pinched entrance, gardens hidden behind. An entire architectural tradition emerged from the desire to minimize what faced the street.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Graveyard at the village edge -->
+  <div class="card">
+    <div class="card-photo">
+      <div class="photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+    <div class="card-text">
+      <p class="card-tag">Village Boundary</p>
+      <h2 class="card-title">The Graveyard at the Edge</h2>
+      <p class="card-subtitle">村外れのお墓 · Where the living world ends</p>
+      <div class="card-body">
+        <p>Walk far enough through any old village and you will reach the graveyard — always at the boundary, never at the center. The dead were placed at the threshold: inside enough to be honored, outside enough to mark where the known world ended.</p>
+        <p>Travelers leaving a village passed through this threshold. The graves were a reminder that the road ahead was uncertain, and that you were leaving the protection of the community behind.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Mountain faith -->
+  <div class="card">
+    <div class="card-photo">
+      <div class="photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+    <div class="card-text">
+      <p class="card-tag">Sacred Landscape</p>
+      <h2 class="card-title">Mountain Faith</h2>
+      <p class="card-subtitle">山岳信仰 · The peaks are the gods</p>
+      <div class="card-body">
+        <p>In the mountains around Nakatsugawa, the high peaks are not simply scenery. They are the residence of kami — the divine presences that govern rain, harvest, and the turning of seasons.</p>
+        <p>Climbing was worship. The path up a mountain was a pilgrimage route, each stage marked by torii and stone cairns. Farmers who never traveled the Nakasendo still made annual ascents of the peaks visible from their fields, carrying the village's prayers upward.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Jizo / Ganesha -->
+  <div class="card">
+    <div class="card-photo">
+      <div class="photo-placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+    <div class="card-text">
+      <p class="card-tag">Roadside Deity</p>
+      <h2 class="card-title">Is Jizō a cousin of Ganesha?</h2>
+      <p class="card-subtitle">地蔵菩薩 · The guardian at the crossroads</p>
+      <div class="card-body">
+        <p>The small stone figures standing at crossroads and mountain passes along the Nakasendo are Jizō — Buddhist bodhisattvas who protect travelers, children, and those caught between worlds.</p>
+        <p>The parallel with Ganesha, the Hindu deity of thresholds and beginnings who also guards doorways and roads, is not accidental. Both figures traveled the same ancient trade routes, transforming as they moved. Buddhism absorbed, adapted, and carried these guardian-at-the-threshold archetypes across Asia. The Jizō you pass on the path may carry the memory of a much older road.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .cards -->
+
+<footer>
+  <div class="footer-brand">SAMURAI HOUSE</div>
+  <div>samuraihouse.jp · Nakatsugawa · Gifu, Japan</div>
+</footer>
+
+</body>
+</html>
