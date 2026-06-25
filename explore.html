@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Things to See Nearby | Samurai House</title>
+<style>
+  :root{
+    --bg:#f7f4ee;
+    --card:#ffffff;
+    --ink:#2b2620;
+    --muted:#6f675b;
+    --line:#e3ddd1;
+    --accent:#8a3324;
+    --accent-soft:#f1e7df;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Helvetica Neue",Arial,"Hiragino Sans","Noto Sans JP",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  header{
+    text-align:center;
+    padding:64px 24px 40px;
+    border-bottom:1px solid var(--line);
+  }
+  header .eyebrow{
+    font-size:13px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:14px;
+  }
+  header h1{
+    font-size:34px;
+    font-weight:600;
+    letter-spacing:.01em;
+    margin-bottom:14px;
+  }
+  header p{
+    max-width:560px;
+    margin:0 auto;
+    color:var(--muted);
+    font-size:16px;
+  }
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:48px 24px 72px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:28px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 14px 30px rgba(43,38,32,.10);
+  }
+  .photo{
+    height:190px;
+    background:var(--accent-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#b8a894;
+    font-size:14px;
+    border-bottom:1px solid var(--line);
+    background-size:cover;
+    background-position:center;
+  }
+  .photo span{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .photo svg{width:30px;height:30px;opacity:.6;}
+  .body{
+    padding:22px 24px 24px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+  .tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:12px;
+  }
+  .tag{
+    font-size:12px;
+    padding:4px 11px;
+    border-radius:20px;
+    background:var(--accent-soft);
+    color:var(--accent);
+    letter-spacing:.02em;
+  }
+  .tag.alt{
+    background:#eef0ea;
+    color:#5d6650;
+  }
+  .card h2{
+    font-size:21px;
+    font-weight:600;
+    margin-bottom:4px;
+  }
+  .jp{
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:12px;
+    letter-spacing:.04em;
+  }
+  .desc{
+    font-size:15px;
+    color:#514a40;
+    margin-bottom:20px;
+    flex:1;
+  }
+  .link{
+    align-self:flex-start;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-size:14px;
+    font-weight:500;
+    color:var(--accent);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+    transition:border-color .2s;
+  }
+  .link:hover{border-color:var(--accent);}
+  .link svg{width:15px;height:15px;}
+  footer{
+    text-align:center;
+    padding:40px 24px 64px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:14px;
+  }
+  footer a{color:var(--accent);text-decoration:none;}
+  @media(max-width:480px){
+    header h1{font-size:27px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Samurai House · Nakatsugawa</div>
+  <h1>Things to See Nearby</h1>
+  <p>A handpicked guide to the mountains, trails, waterfalls and old post towns within easy reach of your stay.</p>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+
+    <!-- 1. Magome–Tsumago Trail -->
+    <article class="card">
+      <div class="photo"><span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 20l6-9 4 5 3-4 5 8z"/><circle cx="17" cy="6" r="2"/></svg>
+        Add your photo
+      </span></div>
+      <div class="body">
+        <div class="tags"><span class="tag">Historic trail</span><span class="tag alt">2–3 hr walk</span></div>
+        <h2>Magome–Tsumago Trail</h2>
+        <div class="jp">馬籠・妻籠／中山道（サムライロード）</div>
+        <p class="desc">An 8 km section of the old Nakasendo highway connecting two beautifully preserved Edo-period post towns. A gentle, well-marked forest walk once travelled by samurai and merchants between Tokyo and Kyoto.</p>
+        <a class="link" href="https://www.japan-guide.com/e/e6078.html" target="_blank" rel="noopener">Learn more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- 2. Naegi Castle Ruins -->
+    <article class="card">
+      <div class="photo"><span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21V9l3 2 3-3 3 3 3-3 3 3 3-2v12z"/></svg>
+        Add your photo
+      </span></div>
+      <div class="body">
+        <div class="tags"><span class="tag">Mountain castle</span><span class="tag alt">360° view</span></div>
+        <h2>Naegi Castle Ruins</h2>
+        <div class="jp">苗木城跡</div>
+        <p class="desc">A dramatic "sky castle" built atop giant boulders. The viewing platform offers a sweeping 360° panorama over Mt. Ena and the Kiso River, and it's a celebrated spot for early-morning seas of cloud.</p>
+        <a class="link" href="https://japaninsidersecrets.com/naegi-castle-ruins/" target="_blank" rel="noopener">Learn more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- 3. Kawakami Dragon Falls -->
+    <article class="card">
+      <div class="photo"><span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3c0 6-4 6-4 11a4 4 0 008 0c0-5-4-5-4-11z"/></svg>
+        Add your photo
+      </span></div>
+      <div class="body">
+        <div class="tags"><span class="tag">Waterfall</span><span class="tag alt">Sacred blue pool</span></div>
+        <h2>Ryujin Falls (Kawakami)</h2>
+        <div class="jp">川上・竜神の滝（青い滝）</div>
+        <p class="desc">A hidden cascade plunging into a vivid blue basin deep in the Kawakami valley. Named for the dragon god said to dwell here, it's a cool, quiet retreat surrounded by untouched forest.</p>
+        <a class="link" href="https://go-centraljapan.jp/route/dragon/en/15.html" target="_blank" rel="noopener">Learn more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- 4. Tsukechi Gorge / Fudo Falls -->
+    <article class="card">
+      <div class="photo"><span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v6M9 8c-2 3-4 4-4 8a7 7 0 0014 0c0-4-2-5-4-8"/></svg>
+        Add your photo
+      </span></div>
+      <div class="body">
+        <div class="tags"><span class="tag">Gorge & falls</span><span class="tag alt">Cypress forest</span></div>
+        <h2>Tsukechi Gorge & Fudo Falls</h2>
+        <div class="jp">付知峡・不動の滝（ヒノキの森）</div>
+        <p class="desc">One of central Japan's most scenic gorges, with emerald pools, granite rock and the powerful Fudo Falls. The surrounding hinoki cypress forest is among the finest in the country—stunning in fresh green and autumn colour alike.</p>
+        <a class="link" href="https://chubu-roo.com/eng/destination/tsukechikyo/" target="_blank" rel="noopener">Learn more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- 5. Fujimidai Stargazing -->
+    <article class="card">
+      <div class="photo"><span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l2 5 5 1-4 4 1 5-5-3-5 3 1-5-4-4 5-1z"/></svg>
+        Add your photo
+      </span></div>
+      <div class="body">
+        <div class="tags"><span class="tag">Highland plateau</span><span class="tag alt">Stargazing</span></div>
+        <h2>Mt. Fujimidai</h2>
+        <div class="jp">富士見台高原（星空）</div>
+        <p class="desc">A grassy highland summit with views said to reach Mt. Fuji on the clearest days. After dark, the open ridgeline becomes one of the region's best places to take in a brilliant canopy of stars.</p>
+        <a class="link" href="https://www.kankou-gifu.jp/blog/detail_255.html" target="_blank" rel="noopener">Learn more
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- 6. Nakatsugawa Town Walk -->
+    <article class="card">
+      <div class="photo"><span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V8l5-3 5 3v13M9 12h2m-2 4h2"/></svg>
+        Add your photo
+      </span></div>
+      <div class="body">
+        <div class="tags"><span class="tag">Town walk</span><span class="tag alt">Old post town</span></div>
+        <h2>Nakatsugawa Town Stroll</h2>
+        <div class="jp">中津川・街歩き</div>
+        <p class="desc">Wander the historic streets of Nakatsugawa-juku, a former Nakasendo post town. Old sake breweries, sweet shops and merchant houses line the way—use the illustrated map to explore at your own pace.</p>
+        <a class="link" href="https://stroly.com/viewer/1689907956?zoom=3" target="_blank" rel="noopener">Open the map
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<footer>
+  Samurai House · Nakatsugawa City, Gifu &nbsp;·&nbsp; <a href="https://samuraihouse.jp">samuraihouse.jp</a>
+</footer>
+
+</body>
+</html>
