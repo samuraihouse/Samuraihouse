@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Check-in / チェックイン - SAMURAI HOUSE NAKASENDO</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", Roboto, sans-serif;
+    background: #F7F6F2;
+    color: #2C2C2A;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+  #app { width: 100%; max-width: 420px; }
+  .brand { text-align: center; font-size: 12px; letter-spacing: 0.12em; color: #8A8880; margin-bottom: 14px; }
+  .card {
+    background: #ffffff;
+    border: 0.5px solid #E3E1D9;
+    border-radius: 16px;
+    padding: 28px 24px;
+  }
+  .progress { display: flex; gap: 4px; margin-bottom: 24px; }
+  .bar { flex: 1; height: 3px; border-radius: 2px; background: #E3E1D9; }
+  .bar.done { background: #2C2C2A; }
+  .step-count { font-size: 13px; color: #8A8880; margin: 0 0 4px; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .jp { font-size: 14px; color: #8A8880; margin: 0 0 4px; }
+  .hint { font-size: 13px; color: #6B6A64; margin: 0 0 16px; line-height: 1.5; }
+  input[type="text"], textarea {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 14px;
+    border: 1px solid #D8D6CC;
+    border-radius: 10px;
+    font-family: inherit;
+    background: #FBFAF7;
+  }
+  input[type="text"]:focus, textarea:focus { outline: none; border-color: #2C2C2A; }
+  input[type="file"] { width: 100%; font-size: 14px; }
+  textarea { resize: vertical; }
+  .error { font-size: 13px; color: #A32D2D; margin: 8px 0 0; display: none; }
+  .btn-row { display: flex; gap: 8px; margin-top: 24px; }
+  button {
+    font-size: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #D8D6CC;
+    background: #ffffff;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  button#next { flex: 2; background: #2C2C2A; color: #fff; border-color: #2C2C2A; }
+  button#next:disabled { opacity: 0.55; }
+  button#back { flex: 1; }
+  .photo-status { font-size: 13px; margin-top: 8px; color: #6B6A64; }
+  img.preview { margin-top: 8px; max-width: 100%; border-radius: 10px; border: 1px solid #E3E1D9; }
+  .done-screen { text-align: center; padding: 24px 0; }
+  .done-screen h2 { font-size: 20px; margin: 12px 0 4px; }
+  .done-screen p { font-size: 14px; color: #6B6A64; margin: 0; line-height: 1.6; }
+  .tick { font-size: 34px; color: #3B6D11; line-height: 1; }
+</style>
+</head>
+<body>
+<div id="app">
+  <p class="brand">SAMURAI HOUSE NAKASENDO</p>
+  <div class="card" id="card"></div>
+</div>
+<script>
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbyYaGzOC_iDelPo-mfS6Y9PM9Izyvc2fKuKsAuidptlvuWs26Yw8VPrO3nyidmLXqzg/exec";
+
+const steps = [
+  { key: 'name', en: 'Guest name', jp: '代表者氏名', hint: 'Full name as it appears on your ID.', type: 'text', placeholder: 'e.g. John Smith', required: true },
+  { key: 'nationality', en: 'Nationality', jp: '国籍', hint: '', type: 'text', placeholder: 'e.g. Australia', required: true },
+  { key: 'passport', en: 'Passport number', jp: 'パスポート番号', hint: 'Non-Japanese guests only. Leave blank if you live in Japan.', type: 'text', placeholder: 'e.g. AB1234567', required: false },
+  { key: 'photo', en: 'Passport photo', jp: 'パスポート写真', hint: 'Non-Japanese guests only. Take a photo of your passport page.', type: 'photo', required: false },
+  { key: 'companions', en: 'Other guest names', jp: '同行者氏名', hint: 'Everyone else staying with you, one name per line. Leave blank if none.', type: 'textarea', placeholder: 'Jane Smith\nTom Smith', required: false }
+];
+
+let idx = 0;
+const data = {};
+const card = document.getElementById('card');
+
+function compressImage(file, maxW) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = () => { img.src = reader.result; };
+    reader.onerror = reject;
+    img.onload = () => {
+      const scale = Math.min(1, maxW / img.width);
+      const w = Math.round(img.width * scale);
+      const h = Math.round(img.height * scale);
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', 0.7));
+    };
+    img.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function render() {
+  const s = steps[idx];
+  const isLast = idx === steps.length - 1;
+  let inputHtml = '';
+
+  if (s.type === 'text') {
+    inputHtml = '<input id="field" type="text" placeholder="' + s.placeholder + '" value="' + (data[s.key] || '') + '" />';
+  } else if (s.type === 'textarea') {
+    inputHtml = '<textarea id="field" placeholder="' + s.placeholder + '" rows="4">' + (data[s.key] || '') + '</textarea>';
+  } else if (s.type === 'photo') {
+    inputHtml = '<input id="field" type="file" accept="image/*" />' +
+      '<p class="photo-status" id="photoStatus">' + (data[s.key] ? '&#10003; Photo added' : '') + '</p>' +
+      (data[s.key] ? '<img class="preview" src="' + data[s.key] + '" />' : '');
+  }
+
+  card.innerHTML =
+    '<div class="progress">' + steps.map(function(_, i) { return '<div class="bar' + (i <= idx ? ' done' : '') + '"></div>'; }).join('') + '</div>' +
+    '<p class="step-count">' + (idx + 1) + ' / ' + steps.length + '</p>' +
+    '<h1>' + s.en + (s.required ? '' : ' (optional)') + '</h1>' +
+    '<p class="jp">' + s.jp + (s.required ? '' : '（任意）') + '</p>' +
+    (s.hint ? '<p class="hint">' + s.hint + '</p>' : '<div style="margin-bottom:16px;"></div>') +
+    inputHtml +
+    '<p class="error" id="err"></p>' +
+    '<div class="btn-row">' +
+      (idx > 0 ? '<button id="back">Back</button>' : '') +
+      '<button id="next">' + (isLast ? 'Submit / 送信' : 'Next') + '</button>' +
+    '</div>';
+
+  if (s.type === 'photo') {
+    document.getElementById('field').onchange = async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      document.getElementById('photoStatus').textContent = 'Processing…';
+      try {
+        data[s.key] = await compressImage(file, 1000);
+        render();
+      } catch (err) {
+        document.getElementById('err').textContent = 'Could not read that image. Please try again.';
+        document.getElementById('err').style.display = 'block';
+      }
+    };
+  }
+
+  document.getElementById('next').onclick = async function() {
+    const btn = document.getElementById('next');
+    document.getElementById('err').style.display = 'none';
+
+    if (s.type !== 'photo') {
+      const val = document.getElementById('field').value.trim();
+      if (s.required && !val) {
+        document.getElementById('err').textContent = 'Please fill this in. / 入力してください';
+        document.getElementById('err').style.display = 'block';
+        return;
+      }
+      data[s.key] = val;
+    }
+
+    if (isLast) {
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      await submit();
+    } else {
+      idx++;
+      render();
+    }
+  };
+
+  if (idx > 0) {
+    document.getElementById('back').onclick = function() {
+      if (s.type !== 'photo') data[s.key] = document.getElementById('field').value;
+      idx--;
+      render();
+    };
+  }
+}
+
+async function submit() {
+  try {
+    await fetch(ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data)
+    });
+    card.innerHTML =
+      '<div class="done-screen">' +
+        '<div class="tick">&#10003;</div>' +
+        '<h2>Thank you!</h2>' +
+        '<p>We have received your details.<br>ご協力ありがとうございました。<br><br>See you soon at SAMURAI HOUSE.</p>' +
+      '</div>';
+  } catch (e) {
+    card.innerHTML =
+      '<div class="done-screen">' +
+        '<p style="color:#A32D2D;">Could not send. Please check your connection and try again.<br>送信できませんでした。通信状況をご確認ください。</p>' +
+        '<div class="btn-row"><button id="retry" style="flex:1;">Retry</button></div>' +
+      '</div>';
+    document.getElementById('retry').onclick = function() {
+      card.querySelector('#retry').textContent = 'Sending…';
+      submit();
+    };
+  }
+}
+
+render();
+</script>
+</body>
+</html>
