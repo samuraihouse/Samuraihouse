@@ -48,14 +48,16 @@ img.preview { margin-top:8px; max-width:100%; border-radius:10px; border:1px sol
 </div>
 <script>
 var ENDPOINT = "https://script.google.com/macros/s/AKfycbyYaGzOC_iDelPo-mfS6Y9PM9Izyvc2fKuKsAuidptlvuWs26Yw8VPrO3nyidmLXqzg/exec";
-var data = { japanese:null, count:1, names:[''], passport:'', photo:'' };
+var data = { japanese:null, count:1, names:[''], passports:[''], photos:[''] };
 var idx = 0;
 var card = document.getElementById('card');
 
 function steps(){
   var l=['japanese','count'];
-  for(var i=0;i<data.count;i++){ l.push('name'+i); }
-  if(data.japanese==='no'){l.push('passport','photo');}
+  for(var i=0;i<data.count;i++){
+    l.push('name'+i);
+    if(data.japanese==='no'){ l.push('passport'+i, 'photo'+i); }
+  }
   return l;
 }
 
@@ -75,7 +77,14 @@ function compressImage(file,maxW){
   });
 }
 
-function syncNames(){ while(data.names.length<data.count) data.names.push(''); data.names.length=data.count; }
+function syncArrays(){
+  while(data.names.length<data.count) data.names.push('');
+  while(data.passports.length<data.count) data.passports.push('');
+  while(data.photos.length<data.count) data.photos.push('');
+  data.names.length=data.count;
+  data.passports.length=data.count;
+  data.photos.length=data.count;
+}
 
 function head(t,j,h){
   var l=steps();
@@ -92,32 +101,39 @@ function footer(last){
 
 function showErr(m){ var e=document.getElementById('err'); e.textContent=m; e.style.display='block'; }
 
+function guestLabel(i){
+  return (i===0)?['Guest 1 (you)','代表者']:['Guest '+(i+1),'同行者'+(i+1)+'人目'];
+}
+
 function render(){
   var l=steps();
   if(idx>=l.length) idx=l.length-1;
   var step=l[idx], last=idx===l.length-1, body='';
 
   if(step==='japanese'){
-    body=head('Are you a Japanese national?','日本国籍ですか？','Japanese nationals do not need to provide passport details.')+
+    body=head('Is anyone in your group non-Japanese?','グループに外国籍の方はいますか？','If yes, we will ask for passport details for each guest.')+
       '<button type="button" class="choice'+(data.japanese==='yes'?' selected':'')+'" data-v="yes">Yes<small>はい</small></button>'+
-      '<button type="button" class="choice'+(data.japanese==='no'?' selected':'')+'" data-v="no">No<small>いいえ</small></button>';
+      '<button type="button" class="choice'+(data.japanese==='no'?' selected':'')+'" data-v="no">No, all Japanese<small>いいえ、全員日本国籍</small></button>';
   } else if(step==='count'){
     body=head('How many guests in total?','宿泊人数（合計）','Including yourself.')+
       '<div class="counter"><button type="button" id="minus"'+(data.count<=1?' disabled':'')+'>&minus;</button><span class="num">'+data.count+'</span><button type="button" id="plus"'+(data.count>=10?' disabled':'')+'>+</button></div>';
   } else if(step.indexOf('name')===0){
-    syncNames();
+    syncArrays();
     var i=parseInt(step.slice(4),10);
-    var label=(i===0)?'Guest name (you)':'Guest '+(i+1)+' name';
-    var labelJp=(i===0)?'代表者氏名':'同行者'+i+'人目のお名前';
-    body=head(label,labelJp,'Full name as it appears on ID.')+
+    var lab=guestLabel(i);
+    body=head(lab[0]+' name',lab[1]+'のお名前','Full name as it appears on ID.')+
       '<input id="field" type="text" placeholder="Full name" value="'+(data.names[i]||'')+'" />';
-  } else if(step==='passport'){
-    body=head('Passport number','パスポート番号','Required by Japanese law for guests from outside Japan.')+
-      '<input id="field" type="text" placeholder="e.g. AB1234567" value="'+(data.passport||'')+'" />';
-  } else if(step==='photo'){
-    body=head('Passport photo','パスポート写真','Take a photo of the page with your name and photo.')+
-      '<input id="field" type="file" accept="image/*" /><p class="photo-status" id="photoStatus">'+(data.photo?'Photo added':'')+'</p>'+
-      (data.photo?'<img class="preview" src="'+data.photo+'" />':'');
+  } else if(step.indexOf('passport')===0){
+    var i2=parseInt(step.slice(8),10);
+    var lab2=guestLabel(i2);
+    body=head(lab2[0]+' passport number',lab2[1]+'のパスポート番号','Required by Japanese law.')+
+      '<input id="field" type="text" placeholder="e.g. AB1234567" value="'+(data.passports[i2]||'')+'" />';
+  } else if(step.indexOf('photo')===0){
+    var i3=parseInt(step.slice(5),10);
+    var lab3=guestLabel(i3);
+    body=head(lab3[0]+' passport photo',lab3[1]+'のパスポート写真','Take a photo of the page with name and photo.')+
+      '<input id="field" type="file" accept="image/*" /><p class="photo-status" id="photoStatus">'+(data.photos[i3]?'Photo added':'')+'</p>'+
+      (data.photos[i3]?'<img class="preview" src="'+data.photos[i3]+'" />':'');
   }
 
   card.innerHTML=body+footer(last);
@@ -128,15 +144,16 @@ function render(){
     });
   }
   if(step==='count'){
-    document.getElementById('minus').onclick=function(){ if(data.count>1){data.count--; syncNames(); render();} };
-    document.getElementById('plus').onclick=function(){ if(data.count<10){data.count++; syncNames(); render();} };
+    document.getElementById('minus').onclick=function(){ if(data.count>1){data.count--; syncArrays(); render();} };
+    document.getElementById('plus').onclick=function(){ if(data.count<10){data.count++; syncArrays(); render();} };
   }
-  if(step==='photo'){
+  if(step.indexOf('photo')===0){
+    var pi=parseInt(step.slice(5),10);
     document.getElementById('field').onchange=function(e){
       var file=e.target.files[0];
       if(!file) return;
       document.getElementById('photoStatus').textContent='Processing...';
-      compressImage(file,1000).then(function(d){ data.photo=d; render(); }).catch(function(){ showErr('Could not read that image.'); });
+      compressImage(file,1000).then(function(d){ data.photos[pi]=d; render(); }).catch(function(){ showErr('Could not read that image.'); });
     };
   }
 
@@ -150,10 +167,11 @@ function render(){
       if(!v){ showErr('Please fill this in.'); return; }
       data.names[i]=v;
     }
-    if(step==='passport'){
+    if(step.indexOf('passport')===0){
+      var i2=parseInt(step.slice(8),10);
       var v2=document.getElementById('field').value.trim();
       if(!v2){ showErr('Please fill this in.'); return; }
-      data.passport=v2;
+      data.passports[i2]=v2;
     }
     if(last){ btn.textContent='Sending...'; btn.disabled=true; submit(); }
     else { idx++; render(); }
@@ -165,20 +183,29 @@ function render(){
         var i=parseInt(step.slice(4),10);
         data.names[i]=document.getElementById('field').value;
       }
-      if(step==='passport') data.passport=document.getElementById('field').value;
+      if(step.indexOf('passport')===0){
+        var i2=parseInt(step.slice(8),10);
+        data.passports[i2]=document.getElementById('field').value;
+      }
       idx--; render();
     };
   }
 }
 
 function submit(){
+  var passportLines=[];
+  for(var i=0;i<data.count;i++){
+    if(data.passports[i]) passportLines.push((data.names[i]||('Guest '+(i+1)))+': '+data.passports[i]);
+  }
+  var photoNote = data.photos.filter(function(p){return p;}).length + ' photo(s) attached';
   var payload={
     name:(data.names[0]||'').trim(),
-    nationality:data.japanese==='yes'?'日本':'外国籍',
-    passport:data.passport||'',
-    photo:data.photo||'',
+    nationality:data.japanese==='yes'?'外国籍あり':'全員日本国籍',
+    passport:passportLines.join(' / '),
+    photo:data.photos[0]||'',
     companions:data.names.slice(1).filter(function(n){return n&&n.trim();}).join(', '),
-    count:data.count
+    count:data.count,
+    note:photoNote
   };
   fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
   .then(function(){
