@@ -48,15 +48,15 @@ img.preview { margin-top:8px; max-width:100%; border-radius:10px; border:1px sol
 </div>
 <script>
 var ENDPOINT = "https://script.google.com/macros/s/AKfycbyYaGzOC_iDelPo-mfS6Y9PM9Izyvc2fKuKsAuidptlvuWs26Yw8VPrO3nyidmLXqzg/exec";
-var data = { japanese:null, count:1, names:[''], passports:[''], photos:[''] };
+var data = { hasForeign:null, count:1, names:[''], passports:[''], photos:[''] };
 var idx = 0;
 var card = document.getElementById('card');
 
 function steps(){
-  var l=['japanese','count'];
+  var l=['hasForeign','count'];
   for(var i=0;i<data.count;i++){
     l.push('name'+i);
-    if(data.japanese==='no'){ l.push('passport'+i, 'photo'+i); }
+    if(data.hasForeign==='yes'){ l.push('passport'+i, 'photo'+i); }
   }
   return l;
 }
@@ -110,10 +110,10 @@ function render(){
   if(idx>=l.length) idx=l.length-1;
   var step=l[idx], last=idx===l.length-1, body='';
 
-  if(step==='japanese'){
+  if(step==='hasForeign'){
     body=head('Is anyone in your group non-Japanese?','グループに外国籍の方はいますか？','If yes, we will ask for passport details for each guest.')+
-      '<button type="button" class="choice'+(data.japanese==='yes'?' selected':'')+'" data-v="yes">Yes<small>はい</small></button>'+
-      '<button type="button" class="choice'+(data.japanese==='no'?' selected':'')+'" data-v="no">No, all Japanese<small>いいえ、全員日本国籍</small></button>';
+      '<button type="button" class="choice'+(data.hasForeign==='yes'?' selected':'')+'" data-v="yes">Yes, someone is non-Japanese<small>はい、外国籍の方がいます</small></button>'+
+      '<button type="button" class="choice'+(data.hasForeign==='no'?' selected':'')+'" data-v="no">No, all Japanese<small>いいえ、全員日本国籍です</small></button>';
   } else if(step==='count'){
     body=head('How many guests in total?','宿泊人数（合計）','Including yourself.')+
       '<div class="counter"><button type="button" id="minus"'+(data.count<=1?' disabled':'')+'>&minus;</button><span class="num">'+data.count+'</span><button type="button" id="plus"'+(data.count>=10?' disabled':'')+'>+</button></div>';
@@ -138,9 +138,9 @@ function render(){
 
   card.innerHTML=body+footer(last);
 
-  if(step==='japanese'){
+  if(step==='hasForeign'){
     Array.prototype.forEach.call(card.querySelectorAll('.choice'),function(b){
-      b.onclick=function(){ data.japanese=b.getAttribute('data-v'); idx++; render(); };
+      b.onclick=function(){ data.hasForeign=b.getAttribute('data-v'); idx++; render(); };
     });
   }
   if(step==='count'){
@@ -160,7 +160,7 @@ function render(){
   document.getElementById('next').onclick=function(){
     var btn=document.getElementById('next');
     document.getElementById('err').style.display='none';
-    if(step==='japanese'&&!data.japanese){ showErr('Please choose one.'); return; }
+    if(step==='hasForeign'&&!data.hasForeign){ showErr('Please choose one.'); return; }
     if(step.indexOf('name')===0){
       var i=parseInt(step.slice(4),10);
       var v=document.getElementById('field').value.trim();
@@ -200,7 +200,7 @@ function submit(){
   var photoNote = data.photos.filter(function(p){return p;}).length + ' photo(s) attached';
   var payload={
     name:(data.names[0]||'').trim(),
-    nationality:data.japanese==='yes'?'外国籍あり':'全員日本国籍',
+    nationality:data.hasForeign==='yes'?'外国籍あり':'全員日本国籍',
     passport:passportLines.join(' / '),
     photo:data.photos[0]||'',
     companions:data.names.slice(1).filter(function(n){return n&&n.trim();}).join(', '),
